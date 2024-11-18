@@ -164,11 +164,29 @@ Node* delete(Node* r,int data)
 //    }
 //}
 
+int search(Node* r,int data)
+{
+	if(r==NULL)
+	return 0;
+	if(r->data==data)
+	{
+		return 1;	
+	}
+	else if(r->data<=data)
+	{
+		return search(r->right,data);
+	}
+	else
+	{
+		return search(r->left,data);
+	}
+}
+
 int main()
 {   int choice,val;
     while(true)
     {
-        printf("Menu\n1. Insert\n2. Display Prefix\n3. Display Infix\n4. Display Postfix\n5 delete a node\n6. Exit\nEnter your choice : ");
+        printf("Menu\n1. Insert\n2. Display Prefix\n3. Display Infix\n4. Display Postfix\n5. delete a node\n6. Search a node\n7. Exit\nEnter your choice : ");
         scanf("%d",&choice);
         switch(choice)
         {
@@ -195,6 +213,11 @@ int main()
             root=delete(root,val);
             break;
             case 6:
+            printf("Enter value to search : ");
+            scanf("%d",&val);
+            printf("The value is %s\n",search(root,val)?"Present":"Absent");
+            break;
+            case 7:
             printf("End of Program\n");
             return 0;
             default:
