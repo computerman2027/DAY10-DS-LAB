@@ -123,7 +123,7 @@ int main()
             case 1:
             printf("Enter value to insert : ");
             scanf("%d",&val);
-            insert(val);
+            root=insert(root,val);
             break;
             case 2:
             prefix(root);
