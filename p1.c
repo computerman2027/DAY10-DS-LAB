@@ -41,8 +41,8 @@ void postfix(Node* r)
     {
         return;
     }
-    infix(r->left);
-    infix(r->right);
+    postfix(r->left);
+    postfix(r->right);
     printf("%d ",r->data);
 }
 void prefix(Node* r)
@@ -52,8 +52,8 @@ void prefix(Node* r)
         return;
     }
     printf("%d ",r->data);
-    infix(r->left);
-    infix(r->right);
+    prefix(r->left);
+    prefix(r->right);
 }
 
 Node* insert(Node* root,int data)
@@ -73,6 +73,58 @@ Node* insert(Node* root,int data)
 	return root;
 }
 
+Node* minvalue(Node* r)
+{
+	if(r==NULL)
+		return r;
+	if(r->left!=NULL)
+	{
+		return minvalue(r->left);
+	}
+	else
+	{
+		return r;
+	}
+}
+
+Node* delete(Node* r,int data)
+{
+	if(r==NULL)
+	{
+		return;
+	}
+	if(data<r->data)
+	{
+		r->left=delete(r->left,data);
+	}
+	else if(data>r->data)
+	{
+		r->right=delete(r->right,data);
+	}
+	else
+	{
+		Node* temp=r;
+		Node* copy;
+		if(r->left==NULL)
+		{	
+			copy=r->right;
+			free(temp);
+			return copy;
+		}
+		else if(r->right==NULL)
+		{
+			copy=r->left;
+			free(temp);
+			return copy;
+		}
+		else
+		{
+			r->data=minvalue(r->right)->data;
+			r->right= delete(r->right,r->data);
+		}
+	}
+	return r;
+}
 
 //void insert(int data)
 //{
@@ -116,7 +168,7 @@ int main()
 {   int choice,val;
     while(true)
     {
-        printf("Menu\n1. Insert\n2. Display Prefix\n3. Display Infix\n4. Display Postfix\n5. Exit\nEnter your choice : ");
+        printf("Menu\n1. Insert\n2. Display Prefix\n3. Display Infix\n4. Display Postfix\n5 delete a node\n6. Exit\nEnter your choice : ");
         scanf("%d",&choice);
         switch(choice)
         {
@@ -138,6 +190,11 @@ int main()
             printf("\n");
             break;
             case 5:
+            printf("Enter value to delete : ");
+            scanf("%d",&val);
+            root=delete(root,val);
+            break;
+            case 6:
             printf("End of Program\n");
             return 0;
             default:
